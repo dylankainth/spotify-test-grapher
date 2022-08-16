@@ -1,6 +1,25 @@
 <template>
   <div>
-    <button @click="openurl" v-if="!this.$store.state.api_key">log in</button>
+
+    <div  v-if="!this.$store.state.api_key" class="row align-items-md-stretch mb-4">
+        <div class="col-md-12 mb-4">
+          <div
+            class="h-100 p-5 rounded-3 shadow d-flex flex-column secondarystyledcard"
+          >
+            <div class="row align-items-start">
+              <div class="col-lg-11">
+                <button @click="openurl" type="button" class="btn" style="background-color:#095256">Sign into Spotify</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="spinner-border text-light" v-if="this.$store.state.api_key && !this.$store.state.playlists" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
+    
     <div v-if="this.$store.state.api_key">
       <div v-if="userdata" class="row align-items-md-stretch mb-4">
         <div class="col-md-12 mb-4">
@@ -119,7 +138,7 @@ export default {
 
     if (!this.$store.state.api_key) {
       var client_id = '866e2cf7fae84f3798bea822648fbc2c'
-      var redirect_uri = 'http://localhost:3000/callback/'
+      var redirect_uri = 'https://spotify-test-grapher.netlify.app/callback/'
 
       var state = Math.random().toString(36).slice(2, 18)
 
