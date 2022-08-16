@@ -9,7 +9,7 @@
             <div class="row align-items-start">
               <div class="col-lg-11">
                 <h1>{{ playlist.name }}</h1>
-                <h1>{{ playlist.tracks.total }}</h1>
+                <h1>{{ playlist.tracks.total }} songs</h1>
               </div>
             </div>
           </div>
@@ -25,6 +25,48 @@
           </div>
         </div>
       </div>
+
+      <div class="row align-items-md-stretch mb-4" v-if="loaded">
+        <div class="col-md-12 mb-4">
+          <div
+            class="h-100 p-5 rounded-3 shadow d-flex flex-column secondarystyledcard"
+          >
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Song</th>
+                  <th scope="col">Acousticness</th>
+                  <th scope="col">Danceability</th>
+                  <th scope="col">Energy</th>
+                  <th scope="col">Loudness</th>
+                  <th scope="col">Liveness</th>
+                  <th scope="col">Speechiness</th>
+                  <th scope="col">Tempo</th>
+                  <th scope="col">Time Signature</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="song in songs" v-bind:key="song.id">
+                  <th scope="row">{{song.number}}</th>
+                  <td>{{song.name}}</td>
+                  <td>{{song.audiofeatures.acousticness}}</td>
+                  <td>{{song.audiofeatures.danceability}}</td>
+                  <td>{{song.audiofeatures.energy}}</td>
+                  <td>{{song.audiofeatures.loudness}}</td>
+                  <td>{{song.audiofeatures.liveness}}</td>
+                  <td>{{song.audiofeatures.speechiness}}</td>
+                  <td>{{song.audiofeatures.tempo}}</td>
+                  <td>{{song.audiofeatures.time_signature}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -163,6 +205,9 @@ export default {
       })
 
       this.chart.update()
+
+      this.songs = ( Object.values(this.songs).map(item=>item).sort((a,b)=> a.id - b.id) )
+
     },
   },
   mounted() {
